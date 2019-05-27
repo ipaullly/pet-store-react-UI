@@ -26,7 +26,6 @@ class PetDetail extends Component {
     render() {
         const { name, animal_type, color, age, id } = this.state.pet;
         history.push('/')
-        console.log(id)
         if (name) {
             return(
                 <div className="container" style={{padding: '200px 0 300px 0'}}>
@@ -48,9 +47,9 @@ class PetDetail extends Component {
             );
         }
         return(
-            <div className="container">
-                <div className="justify-content-center">
-                    <div className="spinner-grow text-info" role="status">
+            <div className="container" style={{padding: '350px 0 350px 0'}}>
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border text-info" role="status">
                         <span className="sr-only">Loading...</span>
                     </div>
                 </div>

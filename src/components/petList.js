@@ -24,27 +24,36 @@ class PetList extends React.Component {
         const { pets } = this.state
         let petList
         if(pets.length > 0) {
-        petList = pets.map(
-            (pet, index) => {
+        petList = pets.map((pet, index) => {
             return(
                 <Display pet={pet} key={index}/>
-            )
-            }
+            )}
         )
         }
+        if(petList) {
+            return (
+                <div style={{fontFamily: 'Slabo 27px'}}>
+                    <div className="padding" style={{padding: '80px 0 300px 0'}}>
+                        <div className="container">
+                            <div className="page-header text-center">
+                                <h2 className="display-4" style={{ color: '#23145C' }}>{ petList ? ("Pets In Shop") : (null) }</h2>
+                                <hr />
+                            </div>
+                            <div className="row">
+                                {
+                                    petList
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
         return (
-            <div style={{fontFamily: 'Slabo 27px'}}>
-                <div className="padding" style={{padding: '80px 0 300px 0'}}>
-                    <div className="container">
-                        <div className="page-header text-center">
-                            <h2 className="display-4" style={{ color: '#23145C' }}>{ petList ? ("Pets In Shop") : (null) }</h2>
-                            <hr />
-                        </div>
-                        <div className="row">
-                            {
-                                petList
-                            }
-                        </div>
+            <div className="container" style={{padding: '350px 0 350px 0'}}>
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border text-info" role="status">
+                        <span className="sr-only">Loading...</span>
                     </div>
                 </div>
             </div>
