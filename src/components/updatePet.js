@@ -17,7 +17,6 @@ class PetUpdate extends Component {
       }
     
     componentDidMount() {
-        console.log(this.props.match.params.id)
         const id = this.props.match.params.id;
         axios.get(`https://pet-store-api.herokuapp.com/api/v1/pets/${id}`)
         .then(response => {
@@ -34,6 +33,12 @@ class PetUpdate extends Component {
         this.setState({
             [e.target.id]: e.target.value,
         });
+        try {
+            document.getElementById('name').classList.remove('is-invalid');
+            document.getElementById('age').classList.remove('is-invalid');
+            document.getElementById('animal_type').classList.remove('is-invalid');
+            document.getElementById('color').classList.remove('is-invalid');
+        } catch (e) {}
     }
 
     handleClick() {
@@ -50,6 +55,38 @@ class PetUpdate extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const id = this.props.match.params.id;
+        const nameCheck = e.target.name.value;
+        const ageCheck = e.target.age.value;
+        const animalTypeCheck = e.target.animal_type.value;
+        const colorCheck = e.target.color.value;
+
+        if (nameCheck.length === 0) {
+            document.getElementById('name').classList.add('is-invalid');
+            document.getElementById('name-text').innerText = 'Name field may not be empty.';
+            return;
+        }
+        if (ageCheck.length === 0) {
+            document.getElementById('age').classList.add('is-invalid');
+            document.getElementById('age-text').innerText = 'age field may not be empty.';
+            return;
+        }
+        const isNum = /^\d+$/.test(ageCheck);
+        if (isNum === false) {
+            document.getElementById('age').classList.add('is-invalid');
+            document.getElementById('age-text').innerText = 'age field must be a number';
+            return;
+        }
+        if (animalTypeCheck.length === 0) {
+            document.getElementById('animal_type').classList.add('is-invalid');
+            document.getElementById('animal-text').innerText = 'Animal breed field may not be empty.';
+            return;
+        }
+        if (colorCheck.length === 0) {
+            document.getElementById('color').classList.add('is-invalid');
+            document.getElementById('color-text').innerText = 'color field may not be empty.';
+            return;
+        }
+
         const { name, age, animal_type, color } = this.state;
         const updatedPet = {
             "name": name,
@@ -63,9 +100,6 @@ class PetUpdate extends Component {
                 console.log(response)
                 this.props.history.push(`/pets/${this.props.match.params.id}`)
             }
-        })
-        .catch(error => {
-            console.log(error)
         })
     }
 
@@ -105,22 +139,22 @@ class PetUpdate extends Component {
                     <div className="form-group">
                         <label htmlFor="name">Name</label>
                         <input type="text" id="name" autoComplete="off" className="form-control" onChange={this.handleChange} value={name} />
-                    <div className="invalid-feedback" id="title-text" />
+                        <div className="invalid-feedback" id="name-text" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="age">Age</label>
                         <input type="text" maxLength="128" id="age" autoComplete="off" onChange={this.handleChange} className="form-control" value={age} />
-                    <div className="invalid-feedback" id="description-text" />
+                        <div className="invalid-feedback" id="age-text" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="animal_type">Animal breed</label>
                         <input type="text" maxLength="128" id="animal_type" autoComplete="off" onChange={this.handleChange} className="form-control" value={animal_type} />
-                    <div className="invalid-feedback" id="description-text" />
+                        <div className="invalid-feedback" id="animal-text" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="color">Animal color</label>
                         <input type="text" maxLength="128" id="color" autoComplete="off" onChange={this.handleChange} className="form-control" value={color} />
-                    <div className="invalid-feedback" id="description-text" />
+                        <div className="invalid-feedback" id="color-text" />
                     </div>
                     <div className="form-group text-center">
                         <button type="submit" className="btn btn-outline-info mt-3">Update</button>
